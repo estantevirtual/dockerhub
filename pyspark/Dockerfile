@@ -4,11 +4,15 @@ LABEL maintainer="EstanteVirtual <ti@estantevirtual.com.br>"
 
 USER root
 
-RUN apt-get update -y
-RUN apt-get install -y iputils-ping sudo mysql-client curl
+RUN apt-get update -y && \
+    apt-get install -y --no-install-recommends sudo mysql-client && \
+    rm -rf /var/lib/apt/lists/*
+
 RUN echo "jovyan ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers
 
 ENV SPARK_JARS $SPARK_HOME/jars
+
+WORKDIR $SPARK_JARS
 
 ADD http://central.maven.org/maven2/com/amazonaws/aws-java-sdk/1.7.4/aws-java-sdk-1.7.4.jar $SPARK_JARS/
 ADD http://central.maven.org/maven2/org/apache/hadoop/hadoop-aws/2.7.2/hadoop-aws-2.7.2.jar $SPARK_JARS/
@@ -16,11 +20,12 @@ ADD http://central.maven.org/maven2/mysql/mysql-connector-java/5.1.45/mysql-conn
 ADD http://central.maven.org/maven2/org/elasticsearch/elasticsearch-hadoop/6.0.0/elasticsearch-hadoop-6.0.0.jar $SPARK_JARS/
 ADD http://central.maven.org/maven2/joda-time/joda-time/2.9.9/joda-time-2.9.9.jar $SPARK_JARS/
 
-RUN chmod 555 $SPARK_JARS/aws-java-sdk-1.7.4.jar
-RUN chmod 555 $SPARK_JARS/hadoop-aws-2.7.2.jar
-RUN chmod 555 $SPARK_JARS/mysql-connector-java-5.1.45.jar
-RUN chmod 555 $SPARK_JARS/elasticsearch-hadoop-6.0.0.jar
-RUN chmod 555 $SPARK_JARS/joda-time-2.9.9.jar
+RUN chmod 555 \
+    aws-java-sdk-1.7.4.jar \
+    hadoop-aws-2.7.2.jar \
+    mysql-connector-java-5.1.45.jar \
+    elasticsearch-hadoop-6.0.0.jar \
+    joda-time-2.9.9.jar
 
 USER jovyan
 
