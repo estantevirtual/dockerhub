@@ -1,6 +1,6 @@
-# PySpark + Jupyter Notebooks with AWS and Elasticsearch support
+# PySpark with AWS and Elasticsearch support
 
-This image provides a _PySpark_ environment (with _Jupyter Notebooks_), plus _AWS_ and _Elasticsearch_ support.
+This image provides a clean _PySpark_ environment, plus _AWS_ and _Elasticsearch_ support.
 
 Please, refer to [source on github](https://github.com/estantevirtual/dockerhub/blob/master/pyspark/Dockerfile) for
 more details.
@@ -21,6 +21,8 @@ more details.
 - py4j==0.10.6
 - requests==2.18.4
 - pytest==3.4.2
+- pytest-cov==2.5.1
+- pytest-xdist==1.22.2
 
 **TODO**
 
