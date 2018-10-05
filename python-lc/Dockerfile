@@ -13,4 +13,5 @@ RUN apk add --update --no-cache \
      mariadb-connector-c-dev \
      libc-dev \
      unixodbc-dev \
-     freetds-dev
+     freetds-dev \
+     && pip install --upgrade pip pyodbc
