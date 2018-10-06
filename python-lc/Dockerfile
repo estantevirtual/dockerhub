@@ -7,6 +7,7 @@ ENV PYTHONUNBUFFERED 1
 COPY --from=mssql /opt/microsoft/ /opt/microsoft/
 COPY --from=mssql /opt/mssql-tools/ /opt/mssql-tools/
 COPY --from=mssql /usr/lib/libmsodbcsql-13.so /usr/lib/libmsodbcsql-13.so
+COPY --from=mssql /etc/odbcinst.ini /etc/odbcinst.ini
 
 RUN apk add --update --no-cache \
      alpine-sdk \
