@@ -1,5 +1,5 @@
 FROM microsoft/mssql-tools as mssql
-FROM python:3.6-alpine
+FROM python:3.6
 
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
