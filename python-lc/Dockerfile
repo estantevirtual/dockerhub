@@ -12,3 +12,5 @@ RUN apk add --update --no-cache \
      && rm -rf /var/cache/apk/*
 
 ADD odbcinst.ini /etc/odbcinst.ini
+
+RUN pip install --upgrade pipenv pyodbc gunicorn eventlet gevent
