@@ -1,27 +1,34 @@
 FROM openjdk:8-jre-alpine
 
-ARG VERSION=8.1.1
-LABEL name="solr" maintainer="EstanteVirtual <ti@estantevirtual.com.br>" version=$VERSION
+ARG version=8.2.0
+LABEL name="solr" maintainer="EstanteVirtual <ti@estantevirtual.com.br>" version=$version
 
-ARG TGZ=http://ftp.unicamp.br/pub/apache/lucene/solr/$VERSION/solr-$VERSION.tgz
-ARG SOLR=/opt/solr
-ARG SOLR_VERSION=$SOLR-$VERSION
+#ARG tgz=http://ftp.unicamp.br/pub/apache/lucene/solr/$version/solr-$version.tgz
+ARG tgz=solr-$version.tar
+ARG solr=/opt/solr
+ARG solr_version=$solr-$version
+ARG solr_env=/etc/default/solr.in.sh
 
-RUN apk add --no-cache bash wget && \
-    wget -q -O - $TGZ | \
-    tar -xzC /opt/ && \
+COPY $tgz /tmp/$tgz
+
+RUN apk add --no-cache bash && \
     rm -rf /var/cache/apk/* && \
-    ln -s $SOLR_VERSION $SOLR && \
+    ls -lah /tmp && \
+    tar -xC /opt/ -f /tmp/$tgz && \
+    rm /tmp/$tgz && \
+    ln -s $solr_version $solr && \
     addgroup -S solr && \
     adduser -S -D solr -G solr -s /bin/sh && \
-    chgrp -R solr $SOLR $SOLR_VERSION && \
-    chown -R solr:solr $SOLR $SOLR_VERSION
+    chgrp -R solr $solr $solr_version && \
+    chown -R solr:solr $solr $solr_version && \
+    chmod -R 770 $solr $solr_version && \
+    mkdir /etc/default/ && \
+    cp /opt/solr/bin/solr.in.sh $solr_env && \
+    chmod 770 $solr_env && \
+    chown solr $solr_env && \
+    chgrp solr $solr_env
 
-EXPOSE 7574 8983
-
+ENV SOLR_ENV $solr_env
 WORKDIR /opt/solr
-
-RUN chmod -R 770 $SOLR $SOLR_VERSION
-
-#CMD bash -c 'bin/solr -e cloud'
-CMD bash -c 'sh'
+ADD ./cmd /tmp/
+CMD /tmp/cmd
