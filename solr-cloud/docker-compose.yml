@@ -1,0 +1,29 @@
+---
+version: '3'
+
+services:
+  zookeeper:
+    image: estantevirtual/zookeeper
+    container_name: zookeeper
+    ports:
+      - 2181:2181
+    networks:
+      - solr-cloud
+
+  solr1:
+    image: estantevirtual/solr
+    container_name: solr1
+    ports: ['8983:8983']
+    environment: ['ZK_HOST=zookeeper:2181']
+    networks:
+      - solr-cloud
+
+  solr2:
+    image: estantevirtual/solr
+    container_name: solr2
+    ports: ['8983']
+    environment: ['ZK_HOST=zookeeper:2181']
+    networks:
+      - solr-cloud
+
+networks: {solr-cloud: {}}
