@@ -3,19 +3,15 @@ FROM openjdk:8-jre-alpine
 ARG version=8.2.0
 LABEL name="solr" maintainer="EstanteVirtual <ti@estantevirtual.com.br>" version=$version
 
-#ARG tgz=http://ftp.unicamp.br/pub/apache/lucene/solr/$version/solr-$version.tgz
-ARG tgz=solr-$version.tar
+ARG tgz=http://ftp.unicamp.br/pub/apache/lucene/solr/$version/solr-$version.tgz
 ARG solr=/opt/solr
 ARG solr_version=$solr-$version
 ARG solr_env=/etc/default/solr.in.sh
 
-COPY $tgz /tmp/$tgz
-
 RUN apk add --no-cache bash && \
     rm -rf /var/cache/apk/* && \
-    ls -lah /tmp && \
-    tar -xC /opt/ -f /tmp/$tgz && \
-    rm /tmp/$tgz && \
+    wget -q -O - $tgz | \
+    tar -xzC /opt/ && \
     ln -s $solr_version $solr && \
     addgroup -S solr && \
     adduser -S -D solr -G solr -s /bin/sh && \
