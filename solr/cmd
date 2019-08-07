@@ -1,0 +1,6 @@
+#!/bin/bash
+
+[ -z "$ZK_HOST" ] && echo "ZK_HOST=$ZK_HOST" >> $SOLR_ENV
+
+bin/init.d/solr start
+tail -f /dev/null
