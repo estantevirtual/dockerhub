@@ -26,5 +26,12 @@ RUN apk add --no-cache bash && \
 
 ENV SOLR_ENV $solr_env
 WORKDIR /opt/solr
+
 ADD ./cmd /tmp/
+ADD ./mysql-connector-java-5.1.36.jar ./dist/
+
+RUN chmod 770  ./dist/*.jar && \
+    chown solr ./dist/*.jar && \
+    chgrp solr ./dist/*.jar
+
 CMD /tmp/cmd
