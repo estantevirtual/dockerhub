@@ -9,13 +9,14 @@ WORKDIR $TMP
 
 RUN echo 'deb http://deb.debian.org/debian stable main contrib non-free\n\
 deb http://deb.debian.org/debian stable-updates main contrib non-free\n\
-deb http://security.debian.org/debian-security stable/updates main contrib non-free\n'\
+deb http://security.debian.org/debian-security stable/updates main contrib non-free\n\
+deb http://ftp.us.debian.org/debian sid main'\
 > /etc/apt/sources.list
 
 # install apt dependencies
 RUN apt-get update && \
-    apt-get install -y --no-install-recommends vim curl build-essential zlib1g-dev openjdk-8-jre mysql-client \
-    syslog-ng libssl-dev git && \
+    apt-get install -y --no-install-recommends vim curl build-essential zlib1g-dev default-mysql-client \
+    syslog-ng libssl-dev git libsqlite3-dev gnupg2 wget openjdk-8-jre && \
     service syslog-ng start && \
     rm -rf /var/lib/apt/lists/*
 
@@ -24,14 +25,14 @@ ENV SPARK_VERSION spark-2.3.0-bin-hadoop2.7
 ENV SPARK_TAR $SPARK_VERSION.tgz
 ENV SPARK_HOME /usr/local/spark
 
-RUN curl -L http://mirror.nbtelecom.com.br/apache/spark/spark-2.3.0/$SPARK_TAR > ./$SPARK_TAR && \
+RUN curl -L https://archive.apache.org/dist/spark/spark-2.3.0/$SPARK_TAR > ./$SPARK_TAR && \
     tar -xzvf $SPARK_TAR && rm $SPARK_TAR && mv $SPARK_VERSION $SPARK_HOME
 
 # install spark jars
 ENV SPARK_JARS $SPARK_HOME/jars
 WORKDIR $SPARK_JARS
 
-ENV MAVEN_URL http://central.maven.org/maven2/
+ENV MAVEN_URL https://repo1.maven.org/maven2/
 ENV AWS_JAVA_SDK_PATH com/amazonaws/aws-java-sdk/1.7.4/
 ENV ELASTICSEARCH_HADOOP_PATH org/elasticsearch/elasticsearch-hadoop/7.4.0/
 ENV HADOOP_AWS_PATH org/apache/hadoop/hadoop-aws/2.7.2/
