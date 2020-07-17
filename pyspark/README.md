@@ -10,7 +10,7 @@ more details.
 - aws-java-sdk-1.7.4
 - hadoop-aws-2.7.2
 - mysql-connector-java-5.1.45
-- elasticsearch-hadoop-6.0.0
+- elasticsearch-hadoop-7.4.0
 - joda-time-2.9.9
 
 **Included Python Packages**
@@ -23,6 +23,10 @@ more details.
 - pytest==3.4.2
 - pytest-cov==2.5.1
 - pytest-xdist==1.22.2
+- inflection==0.3.1
+- vcrpy==1.12.0
+- boto3==1.8.4
+- pytz==2018.5
 
 **TODO**
 
