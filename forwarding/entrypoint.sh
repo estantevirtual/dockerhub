@@ -10,6 +10,10 @@ echo "$FWD_RSA" >> /.rsa
 
 chmod 600 /.rsa
 
+touch ~/.ssh/config
+echo "Host *" >> config
+echo "  ServerAliveInterval 60" >> config
+
 IFS=',' read -ra strarr <<< $FWD_LIST
 
 for FWD_CFG in "${strarr[@]}"; do
