@@ -9,7 +9,7 @@ WORKDIR $TMP
 
 RUN echo 'deb http://deb.debian.org/debian stable main contrib non-free\n\
 deb http://deb.debian.org/debian stable-updates main contrib non-free\n\
-deb http://security.debian.org/debian-security stable/updates main contrib non-free\n\
+deb http://security.debian.org/debian-security stable-security/updates main contrib non-free\n\
 deb http://ftp.us.debian.org/debian sid main'\
 > /etc/apt/sources.list
 
@@ -82,7 +82,7 @@ ENV APP_PATH /app/
 
 WORKDIR $APP_PATH
 
-RUN pip install python-dotenv==0.8.2 envparse==0.2.0 pprint==0.1 py4j==0.10.6 requests==2.18.4 pytest==3.4.2 \
+RUN pip install python-dotenv==0.8.2 envparse==0.2.0 py4j==0.10.6 requests==2.18.4 pytest==3.4.2 \
     pytest-cov==2.5.1 pytest-xdist==1.22.2 inflection==0.3.1 vcrpy==1.12.0 boto3==1.8.4 pytz==2018.5
 
 CMD bash -c "pip install -r requirements.txt && tail -f /var/log/syslog"
